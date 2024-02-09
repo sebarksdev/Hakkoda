@@ -1,0 +1,99 @@
+-- Update for Store 101
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_101'
+WHERE STORE_ID = 101;
+
+-- Update for Store 102
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_102'
+WHERE STORE_ID = 102;
+
+-- Update for Store 103
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_103'
+WHERE STORE_ID = 103;
+
+-- Update for Store 104
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_104'
+WHERE STORE_ID = 104;
+
+-- Update for Store 105
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_105'
+WHERE STORE_ID = 105;
+
+-- Update for Store 106
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_106'
+WHERE STORE_ID = 106;
+
+-- Update for Store 107
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_107'
+WHERE STORE_ID = 107;
+
+-- Update for Store 108
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_108'
+WHERE STORE_ID = 108;
+
+-- Update for Store 109
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_109'
+WHERE STORE_ID = 109;
+
+-- Update for Store 110
+UPDATE hakkoda.public.refined_transactions
+SET STORE_NAME = 'Store_110'
+WHERE STORE_ID = 110;
+
+-- Update for Product 201
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_201'
+WHERE PRODUCT_ID = 201;
+
+-- Update for Product 202
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_202'
+WHERE PRODUCT_ID = 202;
+
+-- Update for Product 203
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_203'
+WHERE PRODUCT_ID = 203;
+
+-- Update for Product 204
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_204'
+WHERE PRODUCT_ID = 204;
+
+-- Update for Product 205
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_205'
+WHERE PRODUCT_ID = 205;
+
+-- Update for Product 206
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_206'
+WHERE PRODUCT_ID = 206;
+
+-- Update for Product 207
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_207'
+WHERE PRODUCT_ID = 207;
+
+-- Update for Product 208
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_208'
+WHERE PRODUCT_ID = 208;
+
+-- Update for Product 209
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_209'
+WHERE PRODUCT_ID = 209;
+
+-- Update for Product 210
+UPDATE hakkoda.public.refined_transactions
+SET PRODUCT_NAME = 'Product_210'
+WHERE PRODUCT_ID = 210;
