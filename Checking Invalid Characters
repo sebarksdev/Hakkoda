@@ -1,3 +1,0 @@
-select *
-from refined_transactions
-WHERE REGEXP_LIKE(client_lastname, '.*[^a-zA-Z0-9].*')

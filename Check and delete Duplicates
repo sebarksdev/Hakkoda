@@ -1,3 +1,0 @@
-SELECT DISTINCT * FROM transactions;
-
-CREATE OR REPLACE TABLE refined_transactions AS SELECT DISTINCT * FROM transactions;

@@ -1,3 +1,0 @@
-CREATE OR REPLACE TABLE Sales
-    AS (SELECT transaction_id, quantity_of_items_sold, unit_price, discount,store_id,product_id,client_id,address_id
-FROM refined_transactions);
