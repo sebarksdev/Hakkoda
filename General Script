@@ -1,0 +1,182 @@
+-- *************************                  Check And delete duplicates by transfering the data to another table          *************************                  
+
+SELECT DISTINCT * FROM transactions;
+
+CREATE OR REPLACE TABLE refined_transactions AS SELECT DISTINCT * FROM transactions;
+
+
+
+-- *************************                  Checking Null Values                     *************************                  
+
+ SELECT 
+    'ADDRESS_ID' AS ADDRESS_ID,
+    SUM(CASE WHEN ADDRESS_ID IS NULL THEN 1 ELSE 0 END) AS NullCount_ADDRESS_ID,
+    'BRAND' AS BRAND,
+    SUM(CASE WHEN BRAND IS NULL THEN 1 ELSE 0 END) AS NullCount_BRAND,
+    'CATEGORY' AS CATEGORY,
+    SUM(CASE WHEN CATEGORY IS NULL THEN 1 ELSE 0 END) AS NullCount_CATEGORY,
+    'CITY' AS CITY,
+    SUM(CASE WHEN CITY IS NULL THEN 1 ELSE 0 END) AS NullCount_CITY,
+    'CLIENT_ID' AS CLIENT_ID,
+    SUM(CASE WHEN CLIENT_ID IS NULL THEN 1 ELSE 0 END) AS NullCount_CLIENT_ID,
+    'CLIENT_LASTNAME' AS CLIENT_LASTNAME,
+    SUM(CASE WHEN CLIENT_LASTNAME IS NULL THEN 1 ELSE 0 END) AS NullCount_CLIENT_LASTNAME,
+    'CLIENT_NAME' AS CLIENT_NAME,
+    SUM(CASE WHEN CLIENT_NAME IS NULL THEN 1 ELSE 0 END) AS NullCount_CLIENT_NAME,
+    'DISCOUNT' AS DISCOUNT,
+    SUM(CASE WHEN DISCOUNT IS NULL THEN 1 ELSE 0 END) AS NullCount_DISCOUNT,
+    'EMAIL' AS EMAIL,
+    SUM(CASE WHEN EMAIL IS NULL THEN 1 ELSE 0 END) AS NullCount_EMAIL,
+    'LOCATION' AS LOCATION,
+    SUM(CASE WHEN LOCATION IS NULL THEN 1 ELSE 0 END) AS NullCount_LOCATION,
+    'PRODUCT_ID' AS PRODUCT_ID,
+    SUM(CASE WHEN PRODUCT_ID IS NULL THEN 1 ELSE 0 END) AS NullCount_PRODUCT_ID,
+    'PRODUCT_NAME' AS PRODUCT_NAME,
+    SUM(CASE WHEN PRODUCT_NAME IS NULL THEN 1 ELSE 0 END) AS NullCount_PRODUCT_NAME,
+    'QUANTITY_OF_ITEMS_SOLD' AS QUANTITY_OF_ITEMS_SOLD,
+    SUM(CASE WHEN QUANTITY_OF_ITEMS_SOLD IS NULL THEN 1 ELSE 0 END) AS NullCount_QUANTITY_OF_ITEMS_SOLD,
+    'STATE' AS STATE,
+    SUM(CASE WHEN STATE IS NULL THEN 1 ELSE 0 END) AS NullCount_STATE,
+    'STORE_ID' AS STORE_ID,
+    SUM(CASE WHEN STORE_ID IS NULL THEN 1 ELSE 0 END) AS NullCount_STORE_ID,
+    'STORE_NAME' AS STORE_NAME,
+    SUM(CASE WHEN STORE_NAME IS NULL THEN 1 ELSE 0 END) AS NullCount_STORE_NAME,
+    'STREET' AS STREET,
+    SUM(CASE WHEN STREET IS NULL THEN 1 ELSE 0 END) AS NullCount_STREET,
+    'TRANSACTION_ID' AS TRANSACTION_ID,
+    SUM(CASE WHEN TRANSACTION_ID IS NULL THEN 1 ELSE 0 END) AS NullCount_TRANSACTION_ID,
+    'UNIT_PRICE' AS UNIT_PRICE,
+    SUM(CASE WHEN UNIT_PRICE IS NULL THEN 1 ELSE 0 END) AS NullCount_UNIT_PRICE,
+    'ZIP_CODE' AS ZIP_CODE,
+    SUM(CASE WHEN ZIP_CODE IS NULL THEN 1 ELSE 0 END) AS NullCount_ZIP_CODE
+FROM 
+    refined_transactions;
+
+ -- *************************                  Updating Null values                           *************************                  
+
+UPDATE transactions 
+SET 
+    Store_name = CASE WHEN store_name IS NULL THEN 'Store_' || store_id ELSE store_name END,
+    CLIENT_NAME = CASE WHEN CLIENT_NAME IS NULL THEN 'Client_' || Client_id ELSE CLIENT_NAME END,
+    Product_name= CASE WHEN product_name IS NULL THEN 'Product_' || product_id ELSE product_name END;
+   
+
+-- *************************                  Check invalid characcters                        *************************                  
+
+SELECT *
+FROM refined_transactions
+WHERE REGEXP_LIKE(ADDRESS_ID, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(BRAND, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(CATEGORY, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(CITY, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(CLIENT_ID, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(CLIENT_LASTNAME, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(CLIENT_NAME, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(DISCOUNT, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(EMAIL, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(LOCATION, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(PRODUCT_ID, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(PRODUCT_NAME, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(QUANTITY_OF_ITEMS_SOLD, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(STATE, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(STORE_ID, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(STORE_NAME, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(STREET, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(TRANSACTION_ID, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(UNIT_PRICE, '.*[^a-zA-Z0-9].*')
+   OR REGEXP_LIKE(ZIP_CODE, '.*[^a-zA-Z0-9].*');
+
+
+
+   --*************************                  Creating Dimension tables                  *************************                  
+
+   CREATE OR REPLACE TABLE Client
+    AS (SELECT CLIENT_ID, CLIENT_NAME, CLIENT_LASTNAME, email
+FROM refined_transactions);
+
+
+CREATE OR REPLACE TABLE Store
+    AS (SELECT STORE_ID, store_name, location
+FROM refined_transactions);
+
+
+CREATE OR REPLACE TABLE Product
+    AS (SELECT product_id, product_name, category, brand
+FROM refined_transactions);
+
+
+CREATE OR REPLACE TABLE Address
+    AS (SELECT address_id, street, city, state, zip_code
+FROM refined_transactions);
+
+
+-- *************************                  Creating Fact Table                      *************************                  
+
+CREATE OR REPLACE TABLE Sales
+    AS (SELECT transaction_id, quantity_of_items_sold, unit_price, discount,store_id,product_id,client_id,address_id
+FROM refined_transactions);
+
+
+-- *************************                  Calculating Key Metrics            ***************************
+
+-- Calculate total sales revenue
+SELECT SUM(quantity_of_items_sold * unit_price * (1 - discount)) AS total_sales_revenue
+FROM sales;
+
+-- Calculate total quantity sold
+SELECT SUM(quantity_of_items_sold) AS total_quantity_sold
+FROM sales;
+
+-- Calculate average unit price
+SELECT AVG(unit_price) AS average_unit_price
+FROM sales;
+
+-- Calculate average discount rate
+SELECT AVG(discount) AS average_discount_rate
+FROM sales;
+
+-- Calculate total discount amount
+SELECT SUM(quantity_of_items_sold * unit_price * discount) AS total_discount_amount
+FROM sales;
+
+-- Count the number of transactions
+SELECT COUNT(transaction_id) AS num_transactions
+FROM sales;
+
+-- Calculate sales by store
+SELECT store_id, SUM(quantity_of_items_sold * unit_price * (1 - discount)) AS sales_by_store
+FROM sales
+GROUP BY store_id;
+
+-- Calculate sales by product
+SELECT product_id, SUM(quantity_of_items_sold * unit_price * (1 - discount)) AS sales_by_product
+FROM sales
+GROUP BY product_id;
+
+-- Calculate sales by client
+SELECT client_id, SUM(quantity_of_items_sold * unit_price * (1 - discount)) AS sales_by_client
+FROM sales
+GROUP BY client_id;
+
+-- Calculate sales by address
+SELECT address_id, SUM(quantity_of_items_sold * unit_price * (1 - discount)) AS sales_by_address
+FROM sales
+GROUP BY address_id;
+
+
+-- most sell product for each store
+WITH ProductSales AS (
+    SELECT 
+        store_id, 
+        product_id, 
+        SUM(quantity_of_items_sold) AS total_quantity_sold,
+        ROW_NUMBER() OVER (PARTITION BY store_id ORDER BY SUM(quantity_of_items_sold) DESC) AS rn
+    FROM sales
+    GROUP BY store_id, product_id
+)
+SELECT
+    store_id,
+    product_id,
+    total_quantity_sold
+FROM ProductSales
+WHERE rn = 1;
